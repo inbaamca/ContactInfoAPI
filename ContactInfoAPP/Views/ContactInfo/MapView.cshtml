@@ -1,0 +1,36 @@
+﻿<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBN4NXcGgK5gveXYDu-qKcnfk2kkqCOKlA"></script>
+<script type="text/javascript">
+    function DrawMap() {
+        var geocoder = new google.maps.Geocoder();
+        var address = '@ViewBag.Pincode';
+        geocoder.geocode({ 'address': address }, function (results, status) {
+            if (status == google.maps.GeocoderStatus.OK) {
+                var latitude = results[0].geometry.location.lat();
+                var longitude = results[0].geometry.location.lng();
+                var data = {};
+                data.title = results[0].formatted_address;
+                data.lat = latitude;
+                data.lng = longitude;
+                var mapOptions = { center: new google.maps.LatLng(latitude, longitude), zoom: 12, mapTypeId: google.maps.MapTypeId.ROADMAP };
+                var infoWindow = new google.maps.InfoWindow();
+                var map = new google.maps.Map(document.getElementById("dvMap"), mapOptions);
+                var myLatlng = new google.maps.LatLng(data.lat, data.lng);
+                var marker = new google.maps.Marker({ position: myLatlng, map: map, title: data.title });
+                (function (marker, data) {
+                    google.maps.event.addListener(marker, "click", function (e) {
+                        infoWindow.setContent("<div style ='width:200px;height:50px'>" + data.title + "</div>");
+                        infoWindow.open(map, marker);
+                    });
+                })(marker, data);
+            } else {
+                alert("Request failed.")
+            }
+        });
+    };
+    window.onload = function () { DrawMap(); }
+</script>
+<div id="dvMap" style="width: 700px; height: 400px; border: 1px solid #000000">
+</div>
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>

@@ -1,0 +1,162 @@
+﻿@model IEnumerable<ContactInfoAPP.Models.ContactInfoViewmodel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<head>
+    <!--<style>
+        table {
+            border-spacing: 0;
+            width: 100%;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            cursor: pointer;
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            text-align: left;
+            border: 1px solid #ddd;
+            padding: 16px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2
+        }
+    </style>-->
+    <!-- CSS only -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="~/css/contact.css" rel="stylesheet" />
+</head>
+
+<body>
+    <section class="bg-light p-5">
+        <h4><a asp-action="AddEdit">Create New</a></h4>
+        <div class="table-responsive" id="MyTable">
+            <table class="table bg-white" id="cTable">
+                <thead class="bg-dark text-light">
+                    <tr>
+                        <th onclick="sortTable(0)">
+                            @Html.DisplayNameFor(model => model.FirstName)<i class="fa2 fa-fw fa-sort"></i>
+                        </th>
+                        <th onclick="sortTable(1)">
+                            @Html.DisplayNameFor(model => model.LastName)<i class="fa2 fa-fw fa-sort"></i>
+                        </th>
+                        <th onclick="sortTable(2)">
+                            @Html.DisplayNameFor(model => model.Email)<i class="fa2 fa-fw fa-sort"></i>
+                        </th>
+                        <th onclick="sortTable(3)">
+                            @Html.DisplayNameFor(model => model.PhoneNumber)<i class="fa2 fa-fw fa-sort"></i>
+                        </th>
+                        <th onclick="sortTable(4)">
+                            @Html.DisplayNameFor(model => model.Address)<i class="fa2 fa-fw fa-sort"></i>
+                        </th>
+                        <th onclick="sortTable(5)">
+                            @Html.DisplayNameFor(model => model.City)<i class="fa2 fa-fw fa-sort"></i>
+                        </th>
+                        <th onclick="sortTable(6)">
+                            @Html.DisplayNameFor(model => model.State)<i class="fa2 fa-fw fa-sort"></i>
+                        </th>
+                        <th onclick="sortTable(7)">
+                            @Html.DisplayNameFor(model => model.Country)<i class="fa2 fa-fw fa-sort"></i>
+                        </th>
+                        <th onclick="sortTable(8)">
+                            @Html.DisplayNameFor(model => model.PostalCode)<i class="fa2 fa-fw fa-sort"></i>
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td data-title="FirstName">
+                                @Html.DisplayFor(modelItem => item.FirstName)
+                            </td>
+                            <td data-title="LastName">
+                                @Html.DisplayFor(modelItem => item.LastName)
+                            </td>
+                            <td data-title="Email">
+                                @Html.DisplayFor(modelItem => item.Email)
+                            </td>
+                            <td data-title="PhoneNumber">
+                                @Html.DisplayFor(modelItem => item.PhoneNumber)
+                            </td>
+                            <td data-title="Address">
+                                @Html.DisplayFor(modelItem => item.Address)
+                            </td>
+                            <td data-title="City">
+                                @Html.DisplayFor(modelItem => item.City)
+                            </td>
+                            <td data-title="State">
+                                @Html.DisplayFor(modelItem => item.State)
+                            </td>
+                            <td data-title="Country">
+                                @Html.DisplayFor(modelItem => item.Country)
+                            </td>
+                            <td data-title="PostalCode">
+                                @Html.DisplayFor(modelItem => item.PostalCode)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Edit", "AddEdit", new { id = item.Id }) |
+                                @Html.ActionLink("Delete", "DeleteContact", new { id = item.Id }) |
+                                @Html.ActionLink("Map", "MapView", new { id = item.PostalCode }) 
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+        </div>
+    </section>
+</body>
+
+<script type="text/javascript">
+    window.onload = function () {
+        if ('@ViewBag.SuccessMsg' != "") { alert('@ViewBag.SuccessMsg'); }
+    };
+</script>
+
+<script type="text/javascript">
+    function sortTable(n) {
+        var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+        table = document.getElementById("cTable");
+        switching = true;
+        dir = "asc";
+        while (switching) {
+            switching = false;
+            rows = table.rows;
+            for (i = 1; i < (rows.length - 1); i++) {
+                shouldSwitch = false;
+                x = rows[i].getElementsByTagName("TD")[n];
+                y = rows[i + 1].getElementsByTagName("TD")[n];
+                if (dir == "asc") {
+                    if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                        shouldSwitch = true;
+                        break;
+                    }
+                } else if (dir == "desc") {
+                    if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                        shouldSwitch = true;
+                        break;
+                    }
+                }
+            }
+            if (shouldSwitch) {
+                rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                switching = true;
+                switchcount++;
+            } else {
+                if (switchcount == 0 && dir == "asc") {
+                    dir = "desc";
+                    switching = true;
+                }
+            }
+        }
+    }
+</script>

@@ -1,0 +1,39 @@
+﻿
+@media only screen and (max-with:700px) {
+    #cTable tbody, #MyTable tr, #MyTable td {
+        display: block;
+    }
+
+    #MyTable thead tr {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+    }
+
+    #MyTable td {
+        position: relative;
+        padding-left: 50%;
+        border: none;
+        border-bottom: 1px solid #eee;
+    }
+
+        #MyTable td:before {
+            content: attr(data-title);
+            position: absolute;
+            left: 5px;
+            font-weight: bold;
+        }
+
+    #MyTable tr {
+        border-bottom: 1px solid #ccc;
+    }
+}
+.fa2 {
+    font-family: FontAwesome;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    padding-left: 1px;
+}
